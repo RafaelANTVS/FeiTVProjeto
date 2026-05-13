@@ -1,0 +1,27 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package controller;
+import controller.Video;
+import model.Aluno;
+import model.videos;
+
+public class playlist {
+    private home AdicionarPlaylist, AdicionarPlaylist;
+    private Aluno aluno;
+    
+    public home(Home AdicionarPlaylist,Home ApagarPlaylist, Aluno aluno){
+        this.Home =ApagarPlaylist;
+        this.Home = AdicionarPlaylist;
+        this.aluno = aluno;
+    }
+
+    public Aluno AdicionarPlaylist(){
+    return aluno;
+    }
+    public Aluno ApagarPlaylist(){
+    return aluno;
+    }
+    
+}

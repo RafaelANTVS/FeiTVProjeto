@@ -1,0 +1,12 @@
+package controller;
+import controller.Video;
+import model.Aluno;
+import model.videos;
+
+public class recao (){
+    //parametros telas
+
+
+    // um bolleano para receber da tela do video
+
+}

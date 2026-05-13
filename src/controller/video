@@ -1,0 +1,10 @@
+package controller;
+import controller.Video;
+import model.Aluno;
+import model.videos;
+
+
+public class video {
+
+    //interacao de recebe reacao, playlist
+}
