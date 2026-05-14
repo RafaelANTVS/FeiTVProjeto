@@ -1,40 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- *
- * @author Rafael
- */
-public class Videos {
-    private String nome;
+public class videos {
     private int id;
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Videos(String nome, int id) {
-        this.nome = nome;
-        this.id = id;
-    }
-
+    private String url;
+    private String descricao;
+    private boolean reacao;
+    private String titulo; 
     
+    public videos(int id, String url, String descricao, boolean reacao) {
+        this.id = id;
+        this.url = url;
+        this.descricao = descricao;
+        this.reacao = reacao;
+    }
     
+    public videos(String titulo, String url, String descricao) {
+        this.titulo = titulo;
+        this.url = url;
+        this.descricao = descricao;
+        this.reacao = false;
+    }
+    
+        public videos() {
+    }
+    
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
+    
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+    
+    public boolean isReacao() { return reacao; }
+    public void setReacao(boolean reacao) { this.reacao = reacao; }
+    
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
 }
