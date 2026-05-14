@@ -1,0 +1,54 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package dao;
+
+/**
+ *
+ * @author Rafael
+ */
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import model.Reacao;
+
+public class ReacaoDAO {
+    private final Connection conn;
+
+    public ReacaoDAO(Connection conn) {
+        this.conn = conn;
+    }
+
+    /**
+     * Registra um like ou dislike. 
+     * Se o usuário já reagiu ao vídeo, o comando atualiza a escolha anterior.
+     */
+    public void registrarOuAtualizar(Reacao reacao) throws SQLException {
+        // SQL utilizando a lógica de conflito do PostgreSQL
+        String sql = "INSERT INTO curtidas (usuario_id, video_id, tipo) VALUES (?, ?, ?) " +
+                     "ON CONFLICT (usuario_id, video_id) DO UPDATE SET tipo = EXCLUDED.tipo";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, reacao.getUsuarioId());
+            stmt.setInt(2, reacao.getVideoId());
+            stmt.setString(3, reacao.getTipoString());
+            
+            stmt.executeUpdate();
+        }
+    }
+
+    /**
+     * Remove a reação caso o usuário clique novamente no mesmo botão (toggle).
+     */
+    public void removerReacao(int usuarioId, int videoId) throws SQLException {
+        String sql = "DELETE FROM curtidas WHERE usuario_id = ? AND video_id = ?";
+        
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, usuarioId);
+            stmt.setInt(2, videoId);
+            stmt.executeUpdate();
+        }
+    }
+}
