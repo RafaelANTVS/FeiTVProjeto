@@ -1,40 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- *
- * @author Rafael
- */
-public class Videos {
-    private String nome;
+public class VideoModel {
     private int id;
+    private String titulo;
+    private String descricao;
+    private String urlVideo; 
+    private int curtidas;
 
-    public String getNome() {
-        return nome;
-    }
+    public VideoModel() {}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public int getId() {
-        return id;
-    }
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public Videos(String nome, int id) {
-        this.nome = nome;
-        this.id = id;
-    }
+    public String getUrlVideo() { return urlVideo; }
+    public void setUrlVideo(String urlVideo) { this.urlVideo = urlVideo; }
 
-    
-    
+    public int getCurtidas() { return curtidas; }
+    public void setCurtidas(int curtidas) { this.curtidas = curtidas; }
 }
