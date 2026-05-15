@@ -9,12 +9,8 @@ package model;
  * @author Rafael
  */
 
-/**
- * Representa uma interação de curtida ou descurtida.
- */
 public class Reacao {
     
-    // Enum para garantir que apenas os valores permitidos no banco sejam usados
     public enum TipoReacao {
         like, dislike
     }
