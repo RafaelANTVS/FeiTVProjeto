@@ -3,7 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-
+package view;
+import controller.ControlePlaylist;
+import model.Usuario;
+import javax.swing.JList;
+import javax.swing.JTextField;
+import javax.swing.DefaultListModel;
 /**
  *
  * @author Rafael
@@ -15,8 +20,9 @@ public class playlist extends javax.swing.JFrame {
     /**
      * Creates new form videos
      */
-    public playlist() {
+    public Playlist(Usuario usuario) {
         initComponents();
+        c = new ControlePlaylist(this, usuario);
     }
 
     /**
@@ -117,11 +123,17 @@ public class playlist extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botaopesquisar2;
+    private javax.swing.JButton BTCriar;
+    private javax.swing.JButton BTEditar;
+    private javax.swing.JButton BTExcluir;
+    private javax.swing.JButton BTFavorito;
+    private javax.swing.JTextField BuscaPlaylists;
+    private javax.swing.JList<String> ListaPlaylists;
+    private javax.swing.JList<String> ListaVideoPlaylist;
+    private javax.swing.JTextField TXTplaylist2;
+    private javax.swing.JTextField TXTvidelosPlaylists;
+    private javax.swing.JButton botaopesquisar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JList<String> listaplaylist;
-    private javax.swing.JScrollBar scroll2;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
