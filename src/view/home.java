@@ -3,7 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-
+import controller.HomeVideo;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import model.VideoModel;
+import javax.swing.JTextField;
+import model.Usuario;
 /**
  *
  * @author Rafael
@@ -19,6 +24,38 @@ public class home extends javax.swing.JFrame {
         initComponents();
     }
 
+       public HomeVideo getC() {
+        return c;
+    }
+
+    public void setC(HomeVideo c) {
+        this.c = c;
+    }
+
+    public JButton getBtPesquisar() {
+        return btPesquisar;
+    }
+
+    public void setBtPesquisar(JButton btPesquisar) {
+        this.btPesquisar = btPesquisar;
+    }
+
+    public JButton getBtPlaylist() {
+        return btPlaylist;
+    }
+
+    public void setBtPlaylist(JButton btPlaylist) {
+        this.btPlaylist = btPlaylist;
+    }
+
+    public JTextField getTxt() {
+        return txt;
+    }
+
+    public void setTxt(JTextField txt) {
+        this.txt = txt;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,6 +112,14 @@ public class home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btPlaylistActionPerformed(java.awt.event.ActionEvent evt) {                                           
+c.chamarPlaylist();
+    }                                          
+
+    private void btPesquisarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+c.chamarPesquisar();
+    }            
+
     /**
      * @param args the command line arguments
      */
@@ -100,9 +145,11 @@ public class home extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new home().setVisible(true));
     }
 
+    private HomeVideo c;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botaoplaylist1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton btPesquisar;
+    private javax.swing.JButton btPlaylist;
+    private javax.swing.JTextField txt;
     // End of variables declaration//GEN-END:variables
 }
