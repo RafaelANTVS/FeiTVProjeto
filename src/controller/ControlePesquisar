@@ -1,0 +1,65 @@
+package controller;
+
+import dao.VideoDAO;
+import dao.Conexao;
+import model.Usuario;
+import model.VideoModel;
+import view.Pesquisar;
+import view.video;
+import javax.swing.JOptionPane;
+import javax.swing.DefaultListModel;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+public class ControlePesquisar {
+    private Pesquisar tela;
+    private Usuario usuario;
+    private List<VideoModel> videosLocalizados;
+    
+    public ControlePesquisar(Pesquisar tela, Usuario usuario) {
+        this.tela = tela;
+        this.usuario = usuario;
+    }
+    
+    public void pesquisar() {
+        //  o texto da busca 
+        String termo = tela.getBarradebuscaPesquisa().getText();
+        
+        Conexao conexao = new Conexao();
+        try {
+            Connection conn = conexao.getConnection();
+            VideoDAO dao = new VideoDAO(conn);
+            
+            // busca SQL
+            videosLocalizados = dao.buscarPorNome(termo);
+            
+            DefaultListModel<String> model = new DefaultListModel<>();
+            for (VideoModel v : videosLocalizados) {
+                model.addElement(v.getTitulo());
+            }
+            
+            // Altera JList na tela
+            tela.getListaVideos().setModel(model);
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(tela, "Erro de Conexão: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void abrirVideo() {
+        int indice = tela.getListaVideos().getSelectedIndex();
+        
+        if (indice != -1 && videosLocalizados != null) {
+            VideoModel videoSelecionado = videosLocalizados.get(indice);
+            
+
+            video telaVideo = new video(videoSelecionado, usuario);
+            telaVideo.setVisible(true);
+            
+            tela.dispose();
+        } else {
+            JOptionPane.showMessageDialog(tela, "Selecione um vídeo na lista antes de clicar em Selecionar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+}
