@@ -16,13 +16,16 @@ public class PlaylistDAO {
         this.conn = conn;
     }
     
-    // metodos para as playlists
+    // Metodos para as playlists
     public void criar(String nome, int idUsuario) throws SQLException {
         String sql = "INSERT INTO playlists (nome, id_usuario) VALUES (?, ?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, nome);
         stmt.setInt(2, idUsuario);
         stmt.execute();
+        
+        stmt.close();
+        conn.close(); 
     }
     
     public void editar(int idPlaylist, String novoNome) throws SQLException {
@@ -31,6 +34,9 @@ public class PlaylistDAO {
         stmt.setString(1, novoNome);
         stmt.setInt(2, idPlaylist);
         stmt.execute();
+        
+        stmt.close();
+        conn.close();
     }
     
     public void excluir(int idPlaylist) throws SQLException {
@@ -38,6 +44,9 @@ public class PlaylistDAO {
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, idPlaylist);
         stmt.execute();
+        
+        stmt.close();
+        conn.close();
     }
     
     // Lista
@@ -55,6 +64,9 @@ public class PlaylistDAO {
             p.setIdUsuario(rs.getInt("id_usuario"));
             lista.add(p);
         }
+        rs.close();
+        stmt.close();
+        conn.close();
         return lista;
     }
     
@@ -74,15 +86,22 @@ public class PlaylistDAO {
             p.setIdUsuario(rs.getInt("id_usuario"));
             lista.add(p);
         }
+        rs.close();
+        stmt.close();
+        conn.close();
         return lista;
     }
-    //manipular os videos
+
+    // Manipular os videos
     public void adicionarVideo(int idPlaylist, int idVideo) throws SQLException {
         String sql = "INSERT INTO playlist_videos (playlist_id, video_id) VALUES (?, ?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, idPlaylist);
         stmt.setInt(2, idVideo);
         stmt.execute();
+        
+        stmt.close();
+        conn.close();
     }
     
     public void removerVideo(int idPlaylist, int idVideo) throws SQLException {
@@ -91,6 +110,9 @@ public class PlaylistDAO {
         stmt.setInt(1, idPlaylist);
         stmt.setInt(2, idVideo);
         stmt.execute();
+        
+        stmt.close();
+        conn.close();
     }
     
     public List<VideoModel> listarVideos(int idPlaylist) throws SQLException {
@@ -103,15 +125,18 @@ public class PlaylistDAO {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
-            VideoModel video = new VideoModel(
-                rs.getInt("id"),
-                rs.getString("url_video"),
-                rs.getString("descricao"),
-                rs.getInt("curtidas")
-            );
+            VideoModel video = new VideoModel();
+            video.setId(rs.getInt("id"));
             video.setTitulo(rs.getString("titulo"));
+            video.setDescricao(rs.getString("descricao"));
+            video.setUrlVideo(rs.getString("url_video"));
+            video.setCurtidas(rs.getInt("curtidas"));
+            
             lista.add(video);
         }
+        rs.close();
+        stmt.close();
+        conn.close();
         return lista;
     }
 }

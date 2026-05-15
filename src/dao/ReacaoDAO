@@ -21,12 +21,7 @@ public class ReacaoDAO {
         this.conn = conn;
     }
 
-    /**
-     * Registra um like ou dislike. 
-     * Se o usuário já reagiu ao vídeo, o comando atualiza a escolha anterior.
-     */
     public void registrarOuAtualizar(Reacao reacao) throws SQLException {
-        // SQL utilizando a lógica de conflito do PostgreSQL
         String sql = "INSERT INTO curtidas (usuario_id, video_id, tipo) VALUES (?, ?, ?) " +
                      "ON CONFLICT (usuario_id, video_id) DO UPDATE SET tipo = EXCLUDED.tipo";
 
