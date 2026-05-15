@@ -1,53 +1,32 @@
 package model;
 
-import model.GerenciadorPlaylist;
-
 public class Usuario {
-    // atributos
+    private int id;
     private String nome, usuario, senha;
-    private GerenciadorPlaylist Playlist;
     
-    // construtores
-    public Usuario() {
-    }
-
+    //criando o primeiro construtor sem id 
     public Usuario(String nome, String usuario, String senha) {
         this.nome = nome;
         this.usuario = usuario;
         this.senha = senha;
-        this.Playlist = new GerenciadorPlaylist();
     }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
+   //está com id pois este construtor serve pra consultar
+    public Usuario(int id, String nome, String usuario, String senha) {
+        this.id = id;
         this.nome = nome;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
         this.usuario = usuario;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
         this.senha = senha;
     }
-
-    public GerenciadorPlaylist getPlaylist() {
-        return Playlist;
-    }
-
-    public void setPlaylist(GerenciadorPlaylist Playlist) {
-        this.Playlist = Playlist;
-    }
-
+    
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+    
+    public String getUsuario() { return usuario; }
+    public void setUsuario(String usuario) { this.usuario = usuario; }
+    
+    public String getSenha() { return senha; }
+    public void setSenha(String senha) { this.senha = senha; }
 }
