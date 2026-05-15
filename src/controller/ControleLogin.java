@@ -1,10 +1,10 @@
 package controller;
 
-import dao.AlunoDAO;
+import dao.UsuarioDAO;
 import dao.Conexao;
-import model.Aluno;
+import model.Usuario;
 import view.Login;
-import view.Logado;
+import view.home;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,34 +18,34 @@ public class ControleLogin{
         this.tela1 = tela1;
     }
     
-     public void loginAluno(){
-        Aluno aluno = new Aluno(null,tela1.getTxtUsuario().getText(),tela1.getTxtSenha().getText());
+    public void loginUsuario(){
+        Usuario usuario = new Usuario(null, tela1.getTxtUsuario().getText(), tela1.getTxtSenha().getText());
         Conexao conexao = new Conexao();
         try{
             Connection conn = conexao.getConnection();
-            AlunoDAO dao = new AlunoDAO(conn);
-            ResultSet res = dao.consultar(aluno);
+            UsuarioDAO dao = new UsuarioDAO(conn);
+            ResultSet res = dao.consultar(usuario);
             if(res.next()){
                 JOptionPane.showMessageDialog(tela1, "Login efetuado", "Aviso", 
                                                 JOptionPane.INFORMATION_MESSAGE);
                 String nome = res.getString("nome");
-                String usuario = res.getString("usuario");
+                String usuarioLogado = res.getString("usuario");
                 String senha = res.getString("senha");
-                Logado tela2 = new Logado(new Aluno(nome, usuario, senha));
-                tela2.setVisible(true);
-                tela1.setVisible(false);
+                int id = res.getInt("id");
+                
+                Usuario usuarioCompleto = new Usuario(id, nome, usuarioLogado, senha);
+                
+                home telaHome = new home(usuarioCompleto);
+                telaHome.setVisible(true);
+                tela1.dispose();
             } else{
                 JOptionPane.showMessageDialog(tela1, "Login não efetuado", "Erro", 
                                                 JOptionPane.ERROR_MESSAGE);
-                
             }
         } catch(SQLException e) {
-    // 1. Mostra a mensagem detalhada na janela de erro
-    JOptionPane.showMessageDialog(tela1, "Erro: " + e.getMessage(), "Erro de Conexão", 
-                                    JOptionPane.ERROR_MESSAGE);
-    
-    // 2. Imprime o rastro do erro no console do NetBeans (muito importante para debug)
-    e.printStackTrace();
-}
+            JOptionPane.showMessageDialog(tela1, "Erro: " + e.getMessage(), "Erro de Conexão", 
+                                            JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }
 }

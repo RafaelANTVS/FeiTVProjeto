@@ -1,8 +1,8 @@
 package controller;
 
-import dao.AlunoDAO;
+import dao.UsuarioDAO;
 import dao.Conexao;
-import model.Aluno;
+import model.Usuario;
 import view.Cadastro;
 
 import java.sql.Connection;
@@ -10,28 +10,46 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class ControleCadastro {
-    private Cadastro tela3;
+    private Cadastro telaCadastro;
     
-    public ControleCadastro(Cadastro tela3){
-        this.tela3 = tela3;
+    public ControleCadastro(Cadastro telaCadastro) {
+        this.telaCadastro = telaCadastro;
     }
     
-    public void salvarAluno(){
-        String nome = tela3.getTxtNome().getText();
-        String usuario = tela3.getTxtUsuario().getText();
-        String senha = tela3.getTxtSenha().getText();
-        Aluno aluno = new Aluno(nome, usuario,senha);
+    public void salvarUsuario() {
+        String nome = telaCadastro.getTxtNome().getText();
+        String usuario = telaCadastro.getTxtUsuario().getText();
+        String senha = telaCadastro.getTxtSenha().getText();
+        
+        // Validação 
+        if (nome.isEmpty() || usuario.isEmpty() || senha.isEmpty()) {
+            JOptionPane.showMessageDialog(telaCadastro, 
+                "Preencha todos os campos!", 
+                "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        Usuario novoUsuario = new Usuario( nome, usuario, senha);
         
         Conexao conexao = new Conexao();
         try {
             Connection conn = conexao.getConnection();
-            AlunoDAO dao = new AlunoDAO(conn);
-            dao.inserir(aluno);
-            JOptionPane.showMessageDialog(tela3, "Usuario Cadastrado!","Aviso", 
-                                        JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(tela3, "Usuário não cadastrado!","Erro", 
-                                        JOptionPane.ERROR_MESSAGE);
+            UsuarioDAO dao = new UsuarioDAO(conn);
+            dao.inserir(novoUsuario);
+            
+            JOptionPane.showMessageDialog(telaCadastro, 
+                "Usuário cadastrado com sucesso!", 
+                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            
+
+            telaCadastro.getTxtNome().setText("");
+            telaCadastro.getTxtUsuario().setText("");
+            telaCadastro.getTxtSenha().setText("");
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(telaCadastro, 
+                "Erro ao cadastrar: " + e.getMessage(), 
+                "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
 }
