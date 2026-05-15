@@ -1,13 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
-
-/**
- *
- * @author Rafael
- */
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,66 +6,112 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.videos;
+import model.PlaylistModel;
+import model.VideoModel;
 
 public class PlaylistDAO {
-    private final Connection conn;
-
+    private Connection conn;
+    
     public PlaylistDAO(Connection conn) {
         this.conn = conn;
     }
-
-    /**
-     * Adiciona um vídeo à playlist de um aluno específico.
-     */
-    public void adicionarVideo(int idAluno, int idVideo) throws SQLException {
-        String sql = "INSERT INTO tbplaylist (id_aluno, id_video) VALUES (?, ?)";
-        
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idAluno);
-            stmt.setInt(2, idVideo);
-            stmt.execute();
-        }
+    
+    // metodos para as playlists
+    public void criar(String nome, int idUsuario) throws SQLException {
+        String sql = "INSERT INTO playlists (nome, id_usuario) VALUES (?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, nome);
+        stmt.setInt(2, idUsuario);
+        stmt.execute();
     }
-
-    /**
-     * Remove um vídeo específico da playlist do aluno.
-     */
-    public void removerVideo(int idAluno, int idVideo) throws SQLException {
-        String sql = "DELETE FROM tbplaylist WHERE id_aluno = ? AND id_video = ?";
-        
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idAluno);
-            stmt.setInt(2, idVideo);
-            stmt.execute();
-        }
+    
+    public void editar(int idPlaylist, String novoNome) throws SQLException {
+        String sql = "UPDATE playlists SET nome = ? WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, novoNome);
+        stmt.setInt(2, idPlaylist);
+        stmt.execute();
     }
-
-    /**
-     * Retorna a lista completa de vídeos de um aluno, buscando os detalhes na tabela de vídeos.
-     */
-    public List<videos> listarPorAluno(int idAluno) throws SQLException {
-        List<videos> playlist = new ArrayList<>();
+    
+    public void excluir(int idPlaylist) throws SQLException {
+        String sql = "DELETE FROM playlists WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, idPlaylist);
+        stmt.execute();
+    }
+    
+    // Lista
+    public List<PlaylistModel> listarPorUsuario(int idUsuario) throws SQLException {
+        List<PlaylistModel> lista = new ArrayList<>();
+        String sql = "SELECT * FROM playlists WHERE id_usuario = ? ORDER BY nome";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, idUsuario);
+        ResultSet rs = stmt.executeQuery();
         
-        String sql = "SELECT v.* FROM tbvideos v " +
-                     "JOIN tbplaylist p ON v.id = p.id_video " +
-                     "WHERE p.id_aluno = ?";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idAluno);
-            
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    videos video = new videos();
-                    video.setId(rs.getInt("id"));
-                    video.setTitulo(rs.getString("titulo"));
-                    video.setDescricao(rs.getString("descricao"));
-                    video.setUrl(rs.getString("url"));
-                    
-                    playlist.add(video);
-                }
-            }
+        while (rs.next()) {
+            PlaylistModel p = new PlaylistModel();
+            p.setId(rs.getInt("id"));
+            p.setNome(rs.getString("nome"));
+            p.setIdUsuario(rs.getInt("id_usuario"));
+            lista.add(p);
         }
-        return playlist;
+        return lista;
+    }
+    
+    // Buscar playlist por nome
+    public List<PlaylistModel> buscarPorNome(String nome, int idUsuario) throws SQLException {
+        List<PlaylistModel> lista = new ArrayList<>();
+        String sql = "SELECT * FROM playlists WHERE nome ILIKE ? AND id_usuario = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, "%" + nome + "%");
+        stmt.setInt(2, idUsuario);
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            PlaylistModel p = new PlaylistModel();
+            p.setId(rs.getInt("id"));
+            p.setNome(rs.getString("nome"));
+            p.setIdUsuario(rs.getInt("id_usuario"));
+            lista.add(p);
+        }
+        return lista;
+    }
+    //manipular os videos
+    public void adicionarVideo(int idPlaylist, int idVideo) throws SQLException {
+        String sql = "INSERT INTO playlist_videos (playlist_id, video_id) VALUES (?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, idPlaylist);
+        stmt.setInt(2, idVideo);
+        stmt.execute();
+    }
+    
+    public void removerVideo(int idPlaylist, int idVideo) throws SQLException {
+        String sql = "DELETE FROM playlist_videos WHERE playlist_id = ? AND video_id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, idPlaylist);
+        stmt.setInt(2, idVideo);
+        stmt.execute();
+    }
+    
+    public List<VideoModel> listarVideos(int idPlaylist) throws SQLException {
+        List<VideoModel> lista = new ArrayList<>();
+        String sql = "SELECT v.* FROM videos v " +
+                     "JOIN playlist_videos pv ON v.id = pv.video_id " +
+                     "WHERE pv.playlist_id = ? ORDER BY v.titulo";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, idPlaylist);
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            VideoModel video = new VideoModel(
+                rs.getInt("id"),
+                rs.getString("url_video"),
+                rs.getString("descricao"),
+                rs.getInt("curtidas")
+            );
+            video.setTitulo(rs.getString("titulo"));
+            lista.add(video);
+        }
+        return lista;
     }
 }
