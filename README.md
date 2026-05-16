@@ -32,5 +32,5 @@
 5. Executar o projeto
 
 **Desenvolvido por:**
-Rafael Antonio, disciplina Rede de computadores
+Rafael Antonio, disciplina: Arquitetura de software e programação orientada a objetos.
 05/26
