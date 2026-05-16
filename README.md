@@ -1,4 +1,4 @@
-** FEI-TV Plataforma de de Vídeos**
+**FEI-TV Plataforma de de Vídeos**
 
  **Sobre o Projeto**
 - Sistema desenvolvido em Java para pesquisa de vídeos onde os usuários podem pesquisar vídeos, curtir/descurtir e gerenciar playlists.
