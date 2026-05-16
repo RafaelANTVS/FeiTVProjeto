@@ -33,10 +33,6 @@ public class ReacaoDAO {
             stmt.executeUpdate();
         }
     }
-
-    /**
-     * Remove a reação caso o usuário clique novamente no mesmo botão (toggle).
-     */
     public void removerReacao(int usuarioId, int videoId) throws SQLException {
         String sql = "DELETE FROM curtidas WHERE usuario_id = ? AND video_id = ?";
         
